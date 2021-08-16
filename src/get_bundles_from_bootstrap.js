@@ -64,8 +64,7 @@ const getBundlesFromBootstrap = async ({
       const jsonpScriptSrcBody = getNLinesAfter(bootstrap, beginOfFunction, 3);
       const configLine = getNthLine(jsonpScriptSrcBody, 1);
 
-      const config = JSON.parse(configLine.slice(configLine.indexOf('{'), configLine.indexOf('}') + 1));
-      return Object.keys(config);
+      return (configLine.match(/{[^}]*}/g) || []).map(x => Object.keys(JSON.parse(x))).flat();
     }
 
     if (hasScriptSrc) {
@@ -95,7 +94,7 @@ const getBundlesFromBootstrap = async ({
 
   const bundleFilenames = chunkIds.map(chunkIdToBundleFilename);
   const bundleUrls = bundleFilenames.map(
-    (bundleFilename) => new URL(bundleFilename, sampleScriptUrl).toString(),
+    (bundleFilename) => new URL('/' + bundleFilename, sampleScriptUrl).toString(),
   );
 
   return bundleUrls;

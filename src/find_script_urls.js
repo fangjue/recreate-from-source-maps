@@ -1,6 +1,6 @@
-const findScriptTags = (html) => html.match(/<script([^>]*)?\ssrc="([^"]*)"(\s[^/]*)?><\/script>/g);
+const findScriptTags = (html) => html.match(/<script([^>]*)?\ssrc="?([^"]*?)"?(\s[^\/]*)?><\/script>/g);
 
-const findScriptPaths = (scriptTags) => scriptTags.map((tag) => tag.match(/src="([^"]*)"/)[1]);
+const findScriptPaths = (scriptTags) => scriptTags.map((tag) => tag.match(/src="?([^"]*?)"?(\s[^\/]*)?>/)[1]);
 
 const findScriptUrls = ({ html, url }) => {
   const urlObject = new URL(url);
